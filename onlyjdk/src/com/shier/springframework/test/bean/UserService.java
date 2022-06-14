@@ -7,9 +7,19 @@ package com.shier.springframework.test.bean;
  * @create: 2022-06-13 15:40
  **/
 public class UserService {
+    private String name;
 
-    public void queryUserInfo(){
-        System.out.println("查询用户信息");
+    public UserService() {}
+
+    public void queryUserInfo() {
+        System.out.println("查询用户信息：" + name);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("");
+        sb.append("").append(name);
+        return sb.toString();
     }
 
 }

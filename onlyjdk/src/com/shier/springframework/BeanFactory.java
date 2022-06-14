@@ -14,7 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public interface BeanFactory {
 
-    public Object getBean(String name);
+    Object getBean(String name);
 
-    public void registerBeanDefinition(String name, BeanDefinition beanDefinition);
+    Object getBean(String name, Object... args) throws BeansException;
+
+    void registerBeanDefinition(String name, BeanDefinition beanDefinition);
 }
