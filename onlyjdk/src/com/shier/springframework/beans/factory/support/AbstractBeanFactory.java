@@ -1,7 +1,7 @@
 package com.shier.springframework.beans.factory.support;
 
-import com.shier.springframework.BeanFactory;
-import com.shier.springframework.BeansException;
+import com.shier.springframework.beans.factory.BeanFactory;
+import com.shier.springframework.beans.BeansException;
 import com.shier.springframework.beans.factory.config.BeanDefinition;
 
 /**

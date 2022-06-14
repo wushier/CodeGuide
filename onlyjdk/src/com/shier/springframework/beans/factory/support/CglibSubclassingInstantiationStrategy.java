@@ -1,6 +1,6 @@
 package com.shier.springframework.beans.factory.support;
 
-import com.shier.springframework.BeansException;
+import com.shier.springframework.beans.BeansException;
 import com.shier.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.NoOp;

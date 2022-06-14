@@ -1,4 +1,4 @@
-package com.shier.springframework;
+package com.shier.springframework.beans;
 
 
 /**
@@ -8,7 +8,7 @@ package com.shier.springframework;
  * @create: 2022-06-13 17:13
  * @see org.springframework.beans.BeansException
  **/
-public class BeansException extends NestedRuntimeException{
+public class BeansException extends NestedRuntimeException {
 
     /**
      * Create a new BeansException with the specified message.

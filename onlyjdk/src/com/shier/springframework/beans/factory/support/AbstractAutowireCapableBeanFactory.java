@@ -1,7 +1,11 @@
 package com.shier.springframework.beans.factory.support;
 
-import com.shier.springframework.BeansException;
+import cn.hutool.core.bean.BeanUtil;
+import com.shier.springframework.beans.BeansException;
+import com.shier.springframework.beans.PropertyValue;
+import com.shier.springframework.beans.PropertyValues;
 import com.shier.springframework.beans.factory.config.BeanDefinition;
+import com.shier.springframework.beans.factory.config.BeanReference;
 
 import java.lang.reflect.Constructor;
 
@@ -29,12 +33,32 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object bean = null;
         try {
             bean = createBeanInstance(beanDefinition, beanName, args);
+            // 设置bean的属性
+            applyPropertyValues(beanDefinition, beanName, bean);
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
 
         addSingleton(beanName, bean);
         return bean;
+    }
+
+    protected void applyPropertyValues(BeanDefinition beanDefinition, String beanName, Object bean) {
+        try {
+            PropertyValues propertyValues = beanDefinition.getPropertyValues();
+            for (PropertyValue property : propertyValues.getPropertyValues()) {
+                String name     = property.getName();
+                Object value    = property.getValue();
+                if (value instanceof BeanReference) {
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getBeanName());
+                }
+                // 属性填充
+                BeanUtil.setFieldValue(bean, name, value);
+            }
+        }catch (Exception e) {
+            throw new BeansException("Error setting property values：" + beanName);
+        }
     }
 
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {

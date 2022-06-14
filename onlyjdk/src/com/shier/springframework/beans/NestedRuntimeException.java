@@ -6,7 +6,7 @@
  * @see org.springframework.core.NestedRuntimeException
  **/
 
-package com.shier.springframework;
+package com.shier.springframework.beans;
 
 import org.springframework.core.NestedExceptionUtils;
 public abstract class NestedRuntimeException extends RuntimeException {

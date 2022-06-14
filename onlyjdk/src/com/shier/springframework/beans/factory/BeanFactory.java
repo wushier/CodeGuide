@@ -1,9 +1,7 @@
-package com.shier.springframework;
+package com.shier.springframework.beans.factory;
 
+import com.shier.springframework.beans.BeansException;
 import com.shier.springframework.beans.factory.config.BeanDefinition;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @program: CodeGuide
