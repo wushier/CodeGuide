@@ -5,6 +5,7 @@ import link.shier.springframework.beans.PropertyValues;
 import link.shier.springframework.beans.factory.config.BeanDefinition;
 import link.shier.springframework.beans.factory.config.BeanReference;
 import link.shier.springframework.beans.factory.support.DefaultListableBeanFactory;
+import link.shier.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import link.shier.springframework.test.bean.UserDao;
 import link.shier.springframework.test.bean.UserService;
 import org.junit.Test;
@@ -79,6 +80,20 @@ public class ApiTest {
 
         // 5. UserService 获取bean
         UserService userService = (UserService) beanFactory.getBean("userService");
+        userService.queryUserInfo();
+    }
+
+    @Test
+    public void test_xml_loader() {
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = beanFactory.getBean("userService", UserService.class);
         userService.queryUserInfo();
     }
 }

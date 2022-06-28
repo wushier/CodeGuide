@@ -19,6 +19,10 @@ public class UserService {
 
     public UserService() {}
 
+    public UserService(String uId, UserDao userDao) {
+        this.uId = uId;
+        this.userDao = userDao;
+    }
 
     @Override
     public String toString() {

@@ -35,6 +35,15 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         return createBean(name, beanDefinition,null);
     }
 
+    @Override
+    public <T> T getBean(String name, Class<T> requiredType) {
+        Object bean = getBean(name);
+        if (requiredType != null && !requiredType.isInstance(bean)) {
+            throw new BeansException("名称对应的bean，不是需求的类型");
+        }
+        return (T) bean;
+    }
+
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
