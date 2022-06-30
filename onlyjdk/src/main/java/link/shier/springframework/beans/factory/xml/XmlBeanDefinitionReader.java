@@ -108,4 +108,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }
     }
+
+    public void loadBeanDefinitions(String[] configLocations) {
+        ResourceLoader resourceLoader = getResourceLoader();
+        for (String config : configLocations) {
+            Resource resource = resourceLoader.getResource(config);
+            loadBeanDefinitions(resource);
+        }
+    }
 }

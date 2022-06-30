@@ -1,5 +1,6 @@
 package link.shier.springframework.beans.factory.config;
 
+import link.shier.springframework.beans.BeansException;
 import link.shier.springframework.beans.factory.ListableBeanFactory;
 import link.shier.springframework.beans.factory.NoSuchBeanDefinitionException;
 
@@ -13,4 +14,7 @@ import link.shier.springframework.beans.factory.NoSuchBeanDefinitionException;
 public interface ConfigurableListableBeanFactory extends ConfigurableBeanFactory,ListableBeanFactory,AutowireCapableBeanFactory{
 
     BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException;
+
+    void preInstantiateSingletons() throws BeansException;
+
 }

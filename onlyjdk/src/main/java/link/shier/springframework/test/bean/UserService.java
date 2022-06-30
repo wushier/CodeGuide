@@ -7,14 +7,13 @@ package link.shier.springframework.test.bean;
  * @create: 2022-06-13 15:40
  **/
 public class UserService {
-    private String name;
-
     private String uId;
-
+    private String company;
+    private String location;
     private UserDao userDao;
 
-    public void queryUserInfo() {
-        System.out.println("查询用户信息：" + userDao.queryUserName(uId));
+    public String queryUserInfo() {
+        return userDao.queryUserName(uId)+", 公司："+company+", 地点"+location;
     }
 
     public UserService() {}
@@ -24,19 +23,20 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("");
-        sb.append("").append(name);
-        return sb.toString();
+    public String getCompany() {
+        return company;
     }
 
-    public String getName() {
-        return name;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getuId() {

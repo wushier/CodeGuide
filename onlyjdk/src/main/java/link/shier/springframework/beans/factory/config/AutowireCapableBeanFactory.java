@@ -1,5 +1,6 @@
 package link.shier.springframework.beans.factory.config;
 
+import link.shier.springframework.beans.BeansException;
 import link.shier.springframework.beans.factory.BeanFactory;
 
 /**
@@ -10,4 +11,10 @@ import link.shier.springframework.beans.factory.BeanFactory;
  * @see org.springframework.beans.factory.config.AutowireCapableBeanFactory
  **/
 public interface AutowireCapableBeanFactory extends BeanFactory {
+
+    Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
+            throws BeansException;
+
+    Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
+            throws BeansException;
 }
