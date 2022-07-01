@@ -2,9 +2,10 @@ package link.shier.springframework.beans.factory.support;
 
 import cn.hutool.core.lang.Assert;
 import link.shier.springframework.beans.BeansException;
+import link.shier.springframework.beans.factory.DisposableBean;
 import link.shier.springframework.beans.factory.config.BeanDefinition;
 import link.shier.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.util.StringUtils;
+
 
 
 import java.util.*;
@@ -19,6 +20,8 @@ import java.util.*;
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
 
     private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+
+    private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
 
 
     @Override
@@ -59,5 +62,4 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     public String[] getBeanDefinitionNames() {
         return beanDefinitionMap.keySet().toArray(new String[0]);
     }
-
 }

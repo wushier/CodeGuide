@@ -1,16 +1,30 @@
 package link.shier.springframework.test.bean;
 
+import link.shier.springframework.beans.BeansException;
+import link.shier.springframework.beans.factory.DisposableBean;
+import link.shier.springframework.beans.factory.InitializingBean;
+
 /**
  * @program: CodeGuide
  * @description:
  * @author: CHUYAN
  * @create: 2022-06-13 15:40
  **/
-public class UserService {
+public class UserService implements InitializingBean, DisposableBean {
     private String uId;
     private String company;
     private String location;
     private UserDao userDao;
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("执行：UserService.destroy");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws BeansException {
+        System.out.println("执行：UserService.afterPropertiesSet");
+    }
 
     public String queryUserInfo() {
         return userDao.queryUserName(uId)+", 公司："+company+", 地点"+location;

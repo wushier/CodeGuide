@@ -1,5 +1,9 @@
 package link.shier.springframework.test.bean;
 
+import link.shier.springframework.beans.BeansException;
+import link.shier.springframework.beans.factory.DisposableBean;
+import link.shier.springframework.beans.factory.InitializingBean;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,17 +13,33 @@ import java.util.Map;
  * @author: CHUYAN
  * @create: 2022-06-14 19:59
  **/
-public class UserDao {
+public class UserDao implements InitializingBean, DisposableBean {
 
     private static Map<String, String> hashMap = new HashMap<>();
 
-    static {
+    public void initDataMethod(){
+        System.out.println("执行：init-method");
         hashMap.put("10001", "小黄");
-        hashMap.put("10002", "小绿");
-        hashMap.put("10003", "小紫");
+        hashMap.put("10002", "小红");
+        hashMap.put("10003", "小兰");
+    }
+
+    public void destroyDataMethod(){
+        System.out.println("执行：destroy-method");
+        hashMap.clear();
     }
 
     public String queryUserName(String uId) {
         return hashMap.get(uId);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+
+    }
+
+    @Override
+    public void afterPropertiesSet() throws BeansException {
+
     }
 }
