@@ -5,6 +5,7 @@ import link.shier.springframework.beans.BeansException;
 import link.shier.springframework.beans.factory.config.BeanDefinition;
 import link.shier.springframework.beans.factory.config.BeanPostProcessor;
 import link.shier.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.util.ClassUtils;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,6 +20,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
     private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();
+
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
@@ -53,6 +56,11 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         this.beanPostProcessors.remove(beanPostProcessor);
         // Add to end of list
         this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    @Override
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
     }
 
     private volatile boolean hasInstantiationAwareBeanPostProcessors;

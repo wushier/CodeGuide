@@ -1,8 +1,8 @@
 package link.shier.springframework.test.bean;
 
 import link.shier.springframework.beans.BeansException;
-import link.shier.springframework.beans.factory.DisposableBean;
-import link.shier.springframework.beans.factory.InitializingBean;
+import link.shier.springframework.beans.factory.*;
+import link.shier.springframework.context.ApplicationContext;
 
 /**
  * @program: CodeGuide
@@ -10,20 +10,21 @@ import link.shier.springframework.beans.factory.InitializingBean;
  * @author: CHUYAN
  * @create: 2022-06-13 15:40
  **/
-public class UserService implements InitializingBean, DisposableBean {
+public class UserService implements BeanNameAware, BeanFactoryAware,ApplicationContextAware,BeanClassLoaderAware {
     private String uId;
     private String company;
     private String location;
     private UserDao userDao;
 
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("执行：UserService.destroy");
+    private ApplicationContext applicationContext;
+    private BeanFactory beanFactory;
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 
-    @Override
-    public void afterPropertiesSet() throws BeansException {
-        System.out.println("执行：UserService.afterPropertiesSet");
+    public BeanFactory getBeanFactory() {
+        return beanFactory;
     }
 
     public String queryUserInfo() {
@@ -67,5 +68,25 @@ public class UserService implements InitializingBean, DisposableBean {
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory =beanFactory;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        System.out.println("Bean Name is：" + name);
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("ClassLoader：" + classLoader);
     }
 }

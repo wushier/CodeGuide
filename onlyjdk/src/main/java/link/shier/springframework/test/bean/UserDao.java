@@ -18,14 +18,14 @@ public class UserDao implements InitializingBean, DisposableBean {
     private static Map<String, String> hashMap = new HashMap<>();
 
     public void initDataMethod(){
-        System.out.println("执行：init-method");
+        System.out.println("UserDao执行：init-method");
         hashMap.put("10001", "小黄");
         hashMap.put("10002", "小红");
         hashMap.put("10003", "小兰");
     }
 
     public void destroyDataMethod(){
-        System.out.println("执行：destroy-method");
+        System.out.println("UserDao执行：destroy-method");
         hashMap.clear();
     }
 
