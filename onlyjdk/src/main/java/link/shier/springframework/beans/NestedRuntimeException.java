@@ -90,7 +90,8 @@ public abstract class NestedRuntimeException extends RuntimeException {
 		if (cause == this) {
 			return false;
 		}
-		if (cause instanceof NestedRuntimeException exception) {
+		if (cause instanceof NestedRuntimeException) {
+			NestedRuntimeException exception = (NestedRuntimeException) cause;
 			return exception.contains(exType);
 		}
 		else {

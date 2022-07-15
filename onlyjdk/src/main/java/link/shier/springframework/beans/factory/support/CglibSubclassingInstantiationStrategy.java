@@ -2,8 +2,8 @@ package link.shier.springframework.beans.factory.support;
 
 import link.shier.springframework.beans.BeansException;
 import link.shier.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.cglib.proxy.Enhancer;
-import org.springframework.cglib.proxy.NoOp;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.NoOp;
 
 import java.lang.reflect.Constructor;
 

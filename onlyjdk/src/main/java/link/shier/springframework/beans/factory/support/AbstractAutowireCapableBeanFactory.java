@@ -45,11 +45,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         // 注册实现了 DisposableBean 接口的 Bean 对象
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-        addSingleton(beanName, bean);
+        if (beanDefinition.isSingleton()) {
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 
     private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        //  单例对象才需要注册销毁方法
+        //  单例模式和原型模式的区别就在于是否存放到内存中，如果是原型模式那么就不会存放到内存中，每次获取都重新创建对象，另外非 Singleton 类型的 Bean 不需要执行销毁方法
+        if (!beanDefinition.isSingleton()) {
+            return;
+        }
         if (bean instanceof DisposableBean || StrUtil.isNotBlank(beanDefinition.getDestroyMethodName())) {
             registerDisposableBean(beanName,new DisposableBeanAdapter(bean, beanName, beanDefinition));
         }

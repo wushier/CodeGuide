@@ -2,6 +2,7 @@ package link.shier.springframework.beans.factory.support;
 
 import cn.hutool.core.lang.Assert;
 import link.shier.springframework.beans.BeansException;
+import link.shier.springframework.beans.factory.FactoryBean;
 import link.shier.springframework.beans.factory.config.BeanDefinition;
 import link.shier.springframework.beans.factory.config.BeanPostProcessor;
 import link.shier.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -17,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @create: 2022-06-13 17:06
  * @see org.springframework.beans.factory.support.AbstractBeanFactory
  **/
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();
 
@@ -27,26 +28,42 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         return this.beanPostProcessors;
     }
 
-    @Override
-    public Object getBean(String name,Object... args) throws BeansException {
+    protected <T> T doGetBean(final String name, final Object... args) {
         Object bean = getSingleton(name);
         if (bean != null) {
-            return bean;
+            // 如果是 FactoryBean，则需要调用 FactoryBean#getObject
+            return (T) getObjectForBeanInstance(bean,name);
         }
 
         BeanDefinition beanDefinition = getBeanDefinition(name);
-        return createBean(name, beanDefinition,args);
+        Object newBean = createBean(name, beanDefinition, args);
+        return (T) getObjectForBeanInstance(newBean,name);
+    }
+
+
+    private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        if (!(beanInstance instanceof FactoryBean)) {
+            return beanInstance;
+        }
+
+        Object object = getCachedObjectForFactoryBean(beanName);
+
+        if (object == null) {
+            FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
+            object = getObjectFromFactoryBean(factoryBean, beanName);
+        }
+
+        return object;
+    }
+
+    @Override
+    public Object getBean(String name,Object... args) throws BeansException {
+        return doGetBean(name,args);
     }
 
     @Override
     public Object getBean(String name) {
-        Object bean = getSingleton(name);
-        if (bean != null) {
-            return bean;
-        }
-
-        BeanDefinition beanDefinition = getBeanDefinition(name);
-        return createBean(name, beanDefinition,null);
+        return doGetBean(name,null);
     }
 
     @Override
@@ -70,11 +87,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public <T> T getBean(String name, Class<T> requiredType) {
-        Object bean = getBean(name);
-        if (requiredType != null && !requiredType.isInstance(bean)) {
-            throw new BeansException("名称对应的bean，不是需求的类型");
-        }
-        return (T) bean;
+        return (T) doGetBean(name);
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;

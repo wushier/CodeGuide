@@ -11,6 +11,18 @@ import link.shier.springframework.beans.PropertyValues;
  **/
 public class BeanDefinition {
 
+    String SCOPE_SINGLETON  = ConfigurableBeanFactory.SCOPE_SINGLETON;
+
+    String SCOPE_PROTOTYPE  = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
+    String SCOPE_DEFAULT    = "";
+
+    private String scope = SCOPE_SINGLETON;
+
+    private boolean singleton = true;
+
+    private boolean prototype = false;
+
     private Class beanClazz;
 
     private PropertyValues propertyValues;
@@ -18,6 +30,30 @@ public class BeanDefinition {
     private String initMethodName;
 
     private String destroyMethodName;
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public boolean isSingleton() {
+        return SCOPE_SINGLETON.equalsIgnoreCase(this.scope) || SCOPE_DEFAULT.equalsIgnoreCase(this.scope);
+    }
+
+    public void setSingleton(boolean singleton) {
+        this.singleton = singleton;
+    }
+
+    public boolean isPrototype() {
+        return SCOPE_PROTOTYPE.equalsIgnoreCase(this.scope);
+    }
+
+    public void setPrototype(boolean prototype) {
+        this.prototype = prototype;
+    }
 
     public BeanDefinition(Class beanClazz) {
         this.beanClazz = beanClazz;
