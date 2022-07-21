@@ -10,5 +10,11 @@
 
     <bean id="proxyUserDao" class="link.shier.springframework.test.bean.ProxyBeanFactory"/>
 
+    <bean class="link.shier.springframework.test.event.ContextRefreshedEventListener"/>
+
+    <bean class="link.shier.springframework.test.event.CustomEventListener"/>
+
+    <bean class="link.shier.springframework.test.event.ContextClosedEventListener"/>
+
 
 </beans>

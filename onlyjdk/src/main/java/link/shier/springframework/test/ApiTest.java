@@ -10,6 +10,7 @@ import link.shier.springframework.context.support.ClassPathXmlApplicationContext
 import link.shier.springframework.test.common.MyBeanFactoryPostProcessor;
 import link.shier.springframework.test.common.MyBeanPostProcessor;
 import link.shier.springframework.test.bean.UserService;
+import link.shier.springframework.test.event.CustomEvent;
 import org.junit.Test;
 import org.openjdk.jol.info.ClassLayout;
 
@@ -191,5 +192,13 @@ public class ApiTest {
         // 2. 调用代理方法
         UserService userService = applicationContext.getBean("userService", UserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
+    @Test
+    public void test_event() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
+
+        applicationContext.registerShutdownHook();
     }
 }

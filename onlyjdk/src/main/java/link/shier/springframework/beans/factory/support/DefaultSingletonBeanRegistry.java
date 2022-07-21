@@ -3,6 +3,7 @@ package link.shier.springframework.beans.factory.support;
 import link.shier.springframework.beans.BeansException;
 import link.shier.springframework.beans.factory.DisposableBean;
 import link.shier.springframework.beans.factory.config.SingletonBeanRegistry;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,20 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     @Override
     public Object getSingleton(String beanName) {
         return singletonObjects.get(beanName);
+    }
+
+    @Override
+    public void registerSingleton(String beanName, Object singletonObject) {
+        Assert.notNull(beanName, "Bean name must not be null");
+        Assert.notNull(singletonObject, "Singleton object must not be null");
+        synchronized (this.singletonObjects) {
+            Object oldObject = this.singletonObjects.get(beanName);
+            if (oldObject != null) {
+                throw new IllegalStateException("Could not register object [" + singletonObject +
+                        "] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
+            }
+            addSingleton(beanName, singletonObject);
+        }
     }
 
     protected void addSingleton(String beanName, Object singletonObject) {
